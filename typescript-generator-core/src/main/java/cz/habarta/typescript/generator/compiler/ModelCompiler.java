@@ -613,23 +613,23 @@ public class ModelCompiler {
 
     private void createRestClients(TsModel tsModel, SymbolTable symbolTable, List<RestApplicationModel> restApplications,
             Symbol responseSymbol, TsType.GenericVariableType optionsGenericVariable, TsType optionsType) {
-        final Symbol httpClientSymbol = symbolTable.getSyntheticSymbol("HttpClient");
+        final Symbol httpClientSymbol = symbolTable.getSyntheticSymbol("IHttpClient");
         final List<TsType.GenericVariableType> typeParameters = Utils.listFromNullable(optionsGenericVariable);
 
         // HttpClient interface
-        final TsType.GenericVariableType returnGenericVariable = new TsType.GenericVariableType("R");
-        tsModel.getBeans().add(new TsBeanModel(null, TsBeanCategory.ServicePrerequisite, false, httpClientSymbol, typeParameters, null, null, null, null, null, Arrays.asList(
-                new TsMethodModel("request", TsModifierFlags.None, Arrays.asList(returnGenericVariable), Arrays.asList(
-                        new TsParameterModel("requestConfig", new TsType.ObjectType(
-                                new TsProperty("method", TsType.String),
-                                new TsProperty("url", TsType.String),
-                                new TsProperty("queryParams", new TsType.OptionalType(TsType.Any)),
-                                new TsProperty("data", new TsType.OptionalType(TsType.Any)),
-                                new TsProperty("copyFn", new TsType.OptionalType(new TsType.FunctionType(Arrays.asList(new TsParameter("data", returnGenericVariable)), returnGenericVariable))),
-                                optionsType != null ? new TsProperty("options", new TsType.OptionalType(optionsType)) : null
-                        ))
-                ), new TsType.GenericReferenceType(responseSymbol, returnGenericVariable), null, null)
-        ), null));
+//        final TsType.GenericVariableType returnGenericVariable = new TsType.GenericVariableType("R");
+//        tsModel.getBeans().add(new TsBeanModel(null, TsBeanCategory.ServicePrerequisite, false, httpClientSymbol, typeParameters, null, null, null, null, null, Arrays.asList(
+//                new TsMethodModel("request", TsModifierFlags.None, Arrays.asList(returnGenericVariable), Arrays.asList(
+//                        new TsParameterModel("requestConfig", new TsType.ObjectType(
+//                                new TsProperty("method", TsType.String),
+//                                new TsProperty("url", TsType.String),
+//                                new TsProperty("queryParams", new TsType.OptionalType(TsType.Any)),
+//                                new TsProperty("data", new TsType.OptionalType(TsType.Any)),
+//                                new TsProperty("copyFn", new TsType.OptionalType(new TsType.FunctionType(Arrays.asList(new TsParameter("data", returnGenericVariable)), returnGenericVariable))),
+//                                optionsType != null ? new TsProperty("options", new TsType.OptionalType(optionsType)) : null
+//                        ))
+//                ), new TsType.GenericReferenceType(responseSymbol, returnGenericVariable), null, null)
+//        ), null));
 
         // application client classes
         final TsType.ReferenceType httpClientType = optionsGenericVariable != null
