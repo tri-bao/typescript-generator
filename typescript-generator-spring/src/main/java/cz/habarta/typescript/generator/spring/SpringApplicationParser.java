@@ -357,7 +357,7 @@ public class SpringApplicationParser extends RestApplicationParser {
         final Class<?> returnType = method.getReturnType();
         final Type parsedReturnType = settings.getTypeParser().getMethodReturnType(method);
         final Type plainReturnType = JTypeWithNullability.getPlainType(parsedReturnType);
-        final Type modelReturnType;
+        Type modelReturnType;
         if (returnType == void.class) {
             modelReturnType = returnType;
         } else if (plainReturnType instanceof ParameterizedType && returnType == ResponseEntity.class) {
@@ -366,6 +366,11 @@ public class SpringApplicationParser extends RestApplicationParser {
         } else {
             modelReturnType = parsedReturnType;
         }
+        if (modelReturnType.getTypeName().contains("reactor.core.publisher.Mono")
+                || modelReturnType.getTypeName().contains("reactor.core.publisher.Flux")) {
+            modelReturnType = JTypeWithNullability.getPlainType(((ParameterizedType) modelReturnType).getActualTypeArguments()[0]);
+        }
+
         return GenericsResolver.resolveType(controllerClass, modelReturnType, method.getDeclaringClass());
     }
 
