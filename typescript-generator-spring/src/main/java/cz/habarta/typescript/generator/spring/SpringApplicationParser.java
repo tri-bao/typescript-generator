@@ -369,6 +369,9 @@ public class SpringApplicationParser extends RestApplicationParser {
         if (modelReturnType.getTypeName().contains("reactor.core.publisher.Mono")
                 || modelReturnType.getTypeName().contains("reactor.core.publisher.Flux")) {
             modelReturnType = JTypeWithNullability.getPlainType(((ParameterizedType) modelReturnType).getActualTypeArguments()[0]);
+            if (modelReturnType.getTypeName().contains("org.springframework.http.ResponseEntity")) {
+                modelReturnType = JTypeWithNullability.getPlainType(((ParameterizedType) modelReturnType).getActualTypeArguments()[0]);
+            }
         }
 
         return GenericsResolver.resolveType(controllerClass, modelReturnType, method.getDeclaringClass());
