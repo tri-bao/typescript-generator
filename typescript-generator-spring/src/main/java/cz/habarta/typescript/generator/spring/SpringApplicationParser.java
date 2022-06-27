@@ -203,7 +203,15 @@ public class SpringApplicationParser extends RestApplicationParser {
                 for (Method method : clazz.getDeclaredMethods()) {
                     final RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
                     if (requestMapping != null) {
-                        addOrReplaceMethod(currentlyResolvedMethods, method);
+                        if (settings.skipControllerMethodAnnotation != null) {
+                            if (!AnnotatedElementUtils.isAnnotated(method, settings.skipControllerMethodAnnotation)) {
+                                addOrReplaceMethod(currentlyResolvedMethods, method);
+                            } else {
+                                TypeScriptGenerator.getLogger().info("Skip controller method: " + method.toString());
+                            }
+                        } else {
+                            addOrReplaceMethod(currentlyResolvedMethods, method);
+                        }
                     }
                 }
 
