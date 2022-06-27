@@ -446,7 +446,7 @@ public class Emitter implements EmitterExtension.Writer {
     }
 
     private void emitComments(List<String> comments) {
-        if (comments != null) {
+        if (comments != null && comments.size() > 0) {
             writeIndentedLine("/**");
             for (String comment : comments) {
                 writeIndentedLine(" * " + comment);

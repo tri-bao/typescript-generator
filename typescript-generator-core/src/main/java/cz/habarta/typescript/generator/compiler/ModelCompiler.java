@@ -719,8 +719,8 @@ public class ModelCompiler {
         final String path = Utils.joinPath(pathPrefix, method.getPath());
         final PathTemplate pathTemplate = PathTemplate.parse(path);
         final List<String> comments = Utils.concat(method.getComments(), Arrays.asList(
-            "HTTP " + method.getHttpMethod() + " /" + path,
-            "Java method: " + method.getOriginClass().getName() + "." + method.getName()
+//            "HTTP " + method.getHttpMethod() + " /" + path,
+//            "Java method: " + method.getOriginClass().getName() + "." + method.getName()
         ));
         final List<TsParameterModel> parameters = new ArrayList<>();
         // path params
